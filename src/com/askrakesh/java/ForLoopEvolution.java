@@ -8,14 +8,14 @@ import java.util.function.Consumer;
 public class ForLoopEvolution {
 	public static void main(String[] args) {
 		List<String> actors = Arrays.asList("Jack Nicholson", "Marlon Brando", "Robert De Niro", "Al Pacino",
-				"Tom Hanks", "--");
+				"Tom Hanks");
 
 		// Start
 		for (int i = 0; i < actors.size(); i++) {
 			System.out.println(actors.get(i));
 		}
 
-		// Java 1.2
+		// // Java 1.2
 		for (Iterator<String> iterator = actors.iterator(); iterator.hasNext();) {
 			System.out.println(iterator.next());
 		}
@@ -25,7 +25,15 @@ public class ForLoopEvolution {
 			System.out.println(actor);
 		}
 
-		// Java 8
+		// Java 8 - Consumer Interface
+
+		Consumer<String> consumers = new Consumer<String>() {
+			public void accept(String actor) {
+				System.out.println(actor);
+			}
+		};
+		actors.forEach(consumers);
+
 		actors.forEach(new Consumer<String>() {
 			public void accept(String actor) {
 				System.out.println(actor);
@@ -33,9 +41,10 @@ public class ForLoopEvolution {
 		});
 
 		// Java 8 - Lambda
-		actors.forEach((e) -> {
+		consumers = (e) -> {
 			System.out.println(e);
-		});
+		};
+		actors.forEach(consumers);
 
 		actors.forEach(e -> System.out.println(e));
 
@@ -43,8 +52,8 @@ public class ForLoopEvolution {
 		actors.forEach(System.out::println);
 
 		// Parallel Streams
-		// actors.parallelStream()
-		// .forEach(System.out::println);
+		actors.parallelStream()
+				.forEach(System.out::println);
 
 	}
 }
